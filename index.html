@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Augmented Reality 3D Model</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #arButton {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Augmented Reality 3D Model</h1>
+    
+    <a id="arButton" style="display:none;">Lihat dalam AR</a>
+
+    <script>
+        // URL model 3D dari GitHub atau server lainnya
+        const modelUrl = 'https://github.com/username/repository/raw/main/path/to/model.glb';
+
+        // Element model-viewer untuk menampilkan model 3D
+        let viewer;
+
+        // Event listener untuk saat tombol AR ditekan
+        document.getElementById('arButton').addEventListener('click', () => {
+            if (viewer) {
+                viewer.enterAR();
+            }
+        });
+
+        // Fungsi untuk memuat model 3D dan menampilkan tombol AR
+        async function loadModel() {
+            try {
+                viewer = document.createElement('model-viewer');
+                viewer.src = modelUrl;
+                viewer.alt = 'Model 3D';
+                viewer.setAttribute('style', 'width: 300px; height: 300px;');
+                viewer.setAttribute('camera-controls', '');
+                viewer.setAttribute('autoplay', '');
+
+                // Tambahkan model-viewer ke dalam dokumen
+                document.body.appendChild(viewer);
+
+                // Tampilkan tombol AR setelah model dimuat
+                document.getElementById('arButton').style.display = 'block';
+            } catch (error) {
+                console.error('Error loading model:', error);
+            }
+        }
+
+        // Panggil fungsi untuk memuat model saat dokumen siap
+        document.addEventListener('DOMContentLoaded', loadModel);
+    </script>
+
+    <!-- Script untuk memuat model-viewer -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer.min.js"></script>
+</body>
+</html>
